@@ -1,8 +1,8 @@
 import unittest
+from packageitems import *
 
 class PackageItemsTestCase(unittest.TestCase):
-    def setUp(self):
-        pass
+
 
     def test_pass(self):
         pass
