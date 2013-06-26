@@ -25,18 +25,17 @@ class Java(object):
 		self.regexp = re.compile(r"package[\s](?P<package_name>[a-zA-Z0-9._]+)[;]")
 
 
-	def count(self, base_path):
-		return len(self._get_files(base_path))
-
-
 	def get_packages_size(self, base_path):
+		"""Returns a dictionary with each package and its items count,
+		looking at base_path and its subdirectories"""
+
 		filenames = self._get_files(base_path)
 
 		for filename in filenames:
 			data = self._read_file(filename)
 			self._process_data(data)
 
-		return package_stats
+		return self.package_stats
 
 
 	def _read_file(self, path):
