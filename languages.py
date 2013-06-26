@@ -22,6 +22,7 @@ class Java(object):
 
 	def __init__(self):
 		self.package_stats = {}
+		self.regexp = re.compile(r"package[\s](?P<package_name>[a-zA-Z0-9.]+)[;]")
 
 
 	def count(self, base_path):
@@ -39,6 +40,8 @@ class Java(object):
 
 
 	def _read_file(self, path):
+		"""Read a file, returning a list with its contents"""
+
 		input_file = open(path, 'r')
 		data = list(input_file)
 		input_file.close()
@@ -50,8 +53,10 @@ class Java(object):
 
 
 	def _get_package_name(self, data):
-		regexp = re.compile(r"package[\s](?P<package_name>[a-zA-Z0-9.]+)[;]")
-		result = regexp.search(data)
+		"""Returns a package name for a given file (data) using a regexp. 
+		If none is found, returns DEFAULT_PACKAGE"""
+
+		result = self.regexp.search(data)
 		if result == None:
 			return self.DEFAULT_PACKAGE
 		else:
