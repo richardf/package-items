@@ -22,6 +22,34 @@ class JavaLanguageTestCase(unittest.TestCase):
     def setUp(self):
         self.counter = Java()
 
+    def test_java_process_data_with_only_default_package_should_return_one_package(self):
+    	data = ["//no package", "class Foo() {}"]
+    	self.counter._process_data(data)
+    	self.assertEquals(1, len(self.counter.package_stats))
+    	self.assertEquals(1, self.counter.package_stats[self.counter.DEFAULT_PACKAGE])
+
+    def test_java_process_data_twice_with_only_default_package_should_return_one_package(self):
+    	data = ["//no package", "class Foo() {}"]
+    	self.counter._process_data(data)
+    	self.counter._process_data(data)
+    	self.assertEquals(1, len(self.counter.package_stats))
+    	self.assertEquals(2, self.counter.package_stats[self.counter.DEFAULT_PACKAGE])
+
+    def test_java_process_data_with_test_package_should_return_one_package(self):
+    	data = ["//comment" ,"package a.test.package;", "class Foo() {}"]
+    	self.counter._process_data(data)
+    	self.assertEquals(1, len(self.counter.package_stats))
+    	self.assertEquals(1, self.counter.package_stats['a.test.package'])
+
+    def test_java_process_data_with_two_test_packages_should_return_two_packages(self):
+    	data = ["//comment" ,"package a.test.package;", "class Foo() {}"]
+    	another_data = ["package another.test;"]
+    	self.counter._process_data(data)
+    	self.counter._process_data(another_data)
+    	self.assertEquals(2, len(self.counter.package_stats))
+    	self.assertEquals(1, self.counter.package_stats['a.test.package'])
+    	self.assertEquals(1, self.counter.package_stats['another.test'])
+
     def test_java_get_package_name_with_valid_data_should_return_package_name(self):
     	data = "package a.test.package;"
     	self.assertEquals("a.test.package", self.counter._get_package_name(data))

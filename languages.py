@@ -49,7 +49,13 @@ class Java(object):
 
 
 	def _process_data(self, data):
-		str_data = data.join(' ')
+		"""Process a list of data, storing the package name for the current data
+		in self.package_stats """
+		str_data = ' '.join(data)
+		package_name = self._get_package_name(str_data)
+		counter = self.package_stats.get(package_name, 0)
+		counter += 1
+		self.package_stats[package_name] = counter
 
 
 	def _get_package_name(self, data):
