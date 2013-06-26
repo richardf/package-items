@@ -63,7 +63,7 @@ class JavaLanguageTestCase(unittest.TestCase):
     	self.assertEquals(self.counter.DEFAULT_PACKAGE, self.counter._get_package_name(data))
 
     def test_java_get_files_in_test_dir_should_return_list_with_1_element(self):
-    	expected =[".\\tests\\data\\java\\javaclass.java"]
+    	expected = [os.path.join('.', 'tests', 'data', 'java', 'javaclass.java')]
     	self.assertEquals(expected, self.counter._get_files(TEST_DIR))
 
     def test_java_get_files_in_python_dir_should_return_empty_list(self):
