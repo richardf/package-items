@@ -22,7 +22,7 @@ class Java(object):
 
 	def __init__(self):
 		self.package_stats = {}
-		self.regexp = re.compile(r"package[\s](?P<package_name>[a-zA-Z0-9.]+)[;]")
+		self.regexp = re.compile(r"package[\s](?P<package_name>[a-zA-Z0-9._]+)[;]")
 
 
 	def count(self, base_path):
