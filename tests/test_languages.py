@@ -22,6 +22,18 @@ class JavaLanguageTestCase(unittest.TestCase):
     def setUp(self):
         self.counter = Java()
 
+    def test_java_get_package_name_with_valid_data_should_return_package_name(self):
+    	data = "package a.test.package;"
+    	self.assertEquals("a.test.package", self.counter._get_package_name(data))
+
+    def test_java_get_package_name_with_valid_data_with_linebreaks_should_return_package_name(self):
+    	data = "//comment\n int foo = 3; \npackage a.test.package;"
+    	self.assertEquals("a.test.package", self.counter._get_package_name(data))
+
+    def test_java_get_package_name_without_package_should_return_default_package(self):
+    	data = "//comment\n int foo = 3; \na.test.package;"
+    	self.assertEquals(self.counter.DEFAULT_PACKAGE, self.counter._get_package_name(data))
+
     def test_java_get_files_in_test_dir_should_return_list_with_1_element(self):
     	expected =[".\\tests\\data\\java\\javaclass.java"]
     	self.assertEquals(expected, self.counter._get_files(TEST_DIR))

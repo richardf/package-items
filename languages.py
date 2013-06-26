@@ -3,7 +3,7 @@ and handles the module counting for each of them.
 """
 
 import os
-
+import re
 
 def get_counter_for_language(language):
 	"""Returns the appropriated counter for a given language"""
@@ -18,9 +18,44 @@ class Java(object):
 	"""Responsible for counting modules on Java projects"""
 	
 	FILE_EXTENSIONS = (".java",)
+	DEFAULT_PACKAGE = "DEFAULT"
+
+	def __init__(self):
+		self.package_stats = {}
+
 
 	def count(self, base_path):
 		return len(self._get_files(base_path))
+
+
+	def get_packages_size(self, base_path):
+		filenames = self._get_files(base_path)
+
+		for filename in filenames:
+			data = self._read_file(filename)
+			self._process_data(data)
+
+		return package_stats
+
+
+	def _read_file(self, path):
+		input_file = open(path, 'r')
+		data = list(input_file)
+		input_file.close()
+		return data
+
+
+	def _process_data(self, data):
+		str_data = data.join(' ')
+
+
+	def _get_package_name(self, data):
+		regexp = re.compile(r"package[\s](?P<package_name>[a-zA-Z0-9.]+)[;]")
+		result = regexp.search(data)
+		if result == None:
+			return self.DEFAULT_PACKAGE
+		else:
+			return result.group('package_name')
 
 
 	def _get_files(self, base_path):
