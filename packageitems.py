@@ -52,7 +52,7 @@ def calculate_average(result):
 	if len(vals) == 0:
 		raise ValueError("Cannot calculate average on empty dictionary.")
 
-	return sum(vals)/len(vals)
+	return sum(vals)/float(len(vals))
 
 
 if __name__ == '__main__':
